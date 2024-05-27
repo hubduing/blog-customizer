@@ -1,6 +1,6 @@
+// куча импортов
 import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
-
 import styles from './ArticleParamsForm.module.scss';
 import { useRef, useState, useEffect, useCallback, FormEvent } from 'react';
 import { Select } from '../select';
@@ -16,7 +16,7 @@ import {
 import { Text } from '../text';
 import { Separator } from '../separator';
 import { RadioGroup } from '../radio-group';
-
+// тип пропсов
 type ArticleParamsFormType = {
 	formState: ArticleStateType;
 	apply: (e: FormEvent) => void;
@@ -27,7 +27,7 @@ type ArticleParamsFormType = {
 	handleWidthAr: (selected: OptionType) => void;
 	handleFontSize: (selected: OptionType) => void;
 };
-
+// функциональный компонент
 export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
 	formState,
 	apply,
@@ -38,22 +38,31 @@ export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
 	handleWidthAr,
 	handleFontSize,
 }) => {
+	// хуки
 	const asideRef = useRef<HTMLElement | null>(null);
 	const [open, setOpen] = useState(false);
 
+	// открытие закрытие боковой панели
 	const arrowButtonHandler = useCallback(() => {
 		setOpen(!open);
 	}, [open]);
 
 	useEffect(() => {
 		if (!open) {
-			console.log('CLOSE', asideRef.current);
 			asideRef.current?.classList.remove(styles.container_open);
 		} else {
-			console.log('OPEN', asideRef.current);
 			asideRef.current?.classList.add(styles.container_open);
 		}
+		const handleClosePage = (e: MouseEvent) => {
+			// console.log('click', asideRef.current, e.target);
+			if (e.target !== asideRef.current) {
+				setOpen(false);
+			}
+		};
+		document.addEventListener('click', handleClosePage);
+		return document.removeEventListener('click', handleClosePage);
 	}, [open]);
+	// рендер боковой панели
 	return (
 		<>
 			<ArrowButton callBack={arrowButtonHandler} />
