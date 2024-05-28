@@ -1,8 +1,11 @@
+// https://github.com/hubduing/blog-customizer/pull/1
+
 // куча импортов
 import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
 import styles from './ArticleParamsForm.module.scss';
-import { useRef, useState, useEffect, useCallback, FormEvent } from 'react';
+import { useRef, useState, useCallback, FormEvent } from 'react';
+// import { useRef, useState, useEffect, useCallback, FormEvent } from 'react';
 import { Select } from '../select';
 import {
 	ArticleStateType,
@@ -16,6 +19,8 @@ import {
 import { Text } from '../text';
 import { Separator } from '../separator';
 import { RadioGroup } from '../radio-group';
+import clsx from 'clsx';
+import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
 // тип пропсов
 type ArticleParamsFormType = {
 	tempState: ArticleStateType;
@@ -39,7 +44,7 @@ export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
 	handleFontSize,
 }) => {
 	// хуки
-	const asideRef = useRef<HTMLElement | null>(null);
+	const asideRef = useRef<HTMLDivElement | null>(null);
 	const [open, setOpen] = useState(false);
 
 	// открытие закрытие боковой панели
@@ -47,26 +52,19 @@ export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
 		setOpen(!open);
 	}, [open]);
 
-	useEffect(() => {
-		if (!open) {
-			asideRef.current?.classList.remove(styles.container_open);
-		} else {
-			asideRef.current?.classList.add(styles.container_open);
-		}
-		const handleClosePage = (e: MouseEvent) => {
-			// console.log('click', asideRef.current, e.target);
-			if (e.target !== asideRef.current) {
-				setOpen(false);
-			}
-		};
-		document.addEventListener('click', handleClosePage);
-		return document.removeEventListener('click', handleClosePage);
-	}, [open]);
+	useOutsideClickClose({
+		isOpen: open,
+		rootRef: asideRef,
+		onClose: arrowButtonHandler,
+		onChange: setOpen,
+	});
 	// рендер боковой панели
 	return (
 		<>
 			<ArrowButton callBack={arrowButtonHandler} />
-			<aside ref={asideRef} className={styles.container}>
+			<aside
+				ref={asideRef}
+				className={clsx(styles.container, open && styles.container_open)}>
 				<form className={styles.form} onSubmit={apply}>
 					<Text as='h2' size={31} weight={800} uppercase={true}>
 						Задайте параметры

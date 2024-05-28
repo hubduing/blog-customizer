@@ -42,6 +42,10 @@
 	outline: 3px solid #000000;
 }
 
+.selectWrapper:hover {
+	outline: 3px solid #ffc802;
+}
+
 .selectWrapper:not([data-is-active='true'])
 	.placeholder:not([data-status='invalid']):hover {
 	outline: 3px solid #000000;
@@ -78,7 +82,12 @@
 }
 
 .option:hover {
-	background: var(--grey, #c4c4c4);
+	background: var(--grey, #eeeeee);
+}
+
+.option:active {
+	background: var(--grey, #d7d7d7);
+	// background: var(--grey, #c4c4c4);
 }
 
 @mixin option-color-before {

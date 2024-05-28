@@ -8,12 +8,24 @@
 	text-align: center;
 	border: 1px solid #000000;
 	cursor: pointer;
+	background: #ffc802;
+}
+.button:first-child {
+	background: var(--white, #ffffff);
 }
 
-.button:active {
-	background: var(--gold, #ffc802);
+.button:first-child:hover {
+	background: var(--black, #000000);
+}
+
+.button:first-child:hover > div {
+	color: var(--white, #ffffff);
 }
 
 .button:hover {
+	background: var(--gold, #ffedab);
+}
+
+.button:active {
 	background: var(--gold, #ffc802);
 }
