@@ -18,7 +18,7 @@ import { Separator } from '../separator';
 import { RadioGroup } from '../radio-group';
 // тип пропсов
 type ArticleParamsFormType = {
-	formState: ArticleStateType;
+	tempState: ArticleStateType;
 	apply: (e: FormEvent) => void;
 	reset: () => void;
 	handleFont: (selected: OptionType) => void;
@@ -29,7 +29,7 @@ type ArticleParamsFormType = {
 };
 // функциональный компонент
 export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
-	formState,
+	tempState,
 	apply,
 	reset,
 	handleFont,
@@ -73,7 +73,7 @@ export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
 					</Text>
 					<Select
 						options={fontFamilyOptions}
-						selected={formState.fontFamilyOption}
+						selected={tempState.fontFamilyOption}
 						title='Шрифт'
 						onChange={handleFont}
 					/>
@@ -81,25 +81,25 @@ export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
 						name='fontSize'
 						title='Размер шрифта'
 						options={fontSizeOptions}
-						selected={formState.fontSizeOption}
+						selected={tempState.fontSizeOption}
 						onChange={handleFontSize}
 					/>
 					<Select
 						options={fontColors}
-						selected={formState.fontColor}
+						selected={tempState.fontColor}
 						title='Цвет шрифта'
 						onChange={handleColor}
 					/>
 					<Separator />
 					<Select
 						options={backgroundColors}
-						selected={formState.backgroundColor}
+						selected={tempState.backgroundColor}
 						title='Цвет фона'
 						onChange={handleBackgroundColors}
 					/>
 					<Select
 						options={contentWidthArr}
-						selected={formState.contentWidth}
+						selected={tempState.contentWidth}
 						title='Ширина контента'
 						onChange={handleWidthAr}
 					/>

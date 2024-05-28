@@ -12,33 +12,35 @@ const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
-	const [formState, setFormState] = useState(defaultArticleState);
+	const [formState, setFormState] = useState(defaultArticleState); // Основной стейт.
+	const [tempState, setTempState] = useState(formState); // Временный стейт, что бы опции сразу не применялись.
 
 	const apply = (e: FormEvent) => {
 		e.preventDefault();
-		setFormState(formState);
+		setFormState(tempState);
 	};
 	const reset = () => {
 		setFormState(defaultArticleState);
+		setTempState(defaultArticleState);
 	};
 	const handleFont = (selected: OptionType) => {
-		setFormState({ ...formState, fontFamilyOption: selected });
+		setTempState({ ...tempState, fontFamilyOption: selected });
 	};
 	const handleColor = (selected: OptionType) => {
-		setFormState({ ...formState, fontColor: selected });
+		setTempState({ ...tempState, fontColor: selected });
 	};
 	const handleBackgroundColors = (selected: OptionType) => {
-		setFormState({ ...formState, backgroundColor: selected });
+		setTempState({ ...tempState, backgroundColor: selected });
 	};
 	const handleWidthAr = (selected: OptionType) => {
-		setFormState({ ...formState, contentWidth: selected });
+		setTempState({ ...tempState, contentWidth: selected });
 	};
 	const handleFontSize = (selected: OptionType) => {
-		setFormState({ ...formState, fontSizeOption: selected });
+		setTempState({ ...tempState, fontSizeOption: selected });
 	};
 
 	const generalProps = {
-		formState,
+		tempState,
 		apply,
 		reset,
 		handleFont,
