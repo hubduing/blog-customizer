@@ -4,14 +4,14 @@
 import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
 import styles from './ArticleParamsForm.module.scss';
-import { useRef, useState, useCallback, FormEvent } from 'react';
-// import { useRef, useState, useEffect, useCallback, FormEvent } from 'react';
+import { useRef, useState, FormEvent } from 'react';
 import { Select } from '../select';
 import {
 	ArticleStateType,
 	OptionType,
 	backgroundColors,
 	contentWidthArr,
+	defaultArticleState,
 	fontColors,
 	fontFamilyOptions,
 	fontSizeOptions,
@@ -21,47 +21,59 @@ import { Separator } from '../separator';
 import { RadioGroup } from '../radio-group';
 import clsx from 'clsx';
 import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
-// тип пропсов
+
+// Тип колбэка
 type ArticleParamsFormType = {
-	tempState: ArticleStateType;
-	apply: (e: FormEvent) => void;
-	reset: () => void;
-	handleFont: (selected: OptionType) => void;
-	handleColor: (selected: OptionType) => void;
-	handleBackgroundColors: (selected: OptionType) => void;
-	handleWidthAr: (selected: OptionType) => void;
-	handleFontSize: (selected: OptionType) => void;
+	updateState: (tempState: ArticleStateType) => void;
 };
 // функциональный компонент
 export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
-	tempState,
-	apply,
-	reset,
-	handleFont,
-	handleColor,
-	handleBackgroundColors,
-	handleWidthAr,
-	handleFontSize,
+	updateState,
 }) => {
 	// хуки
 	const asideRef = useRef<HTMLDivElement | null>(null);
 	const [open, setOpen] = useState(false);
+	const [formState, setFormState] = useState(defaultArticleState); // Основной стейт.
+	const [tempState, setTempState] = useState(formState); // Временный стейт, что бы опции сразу не применялись.
+	const apply = (e: FormEvent) => {
+		e.preventDefault();
+		setFormState(tempState);
+		updateState(tempState);
+	};
+	const reset = () => {
+		setFormState(defaultArticleState);
+		setTempState(defaultArticleState);
+	};
+	const handleFont = (selected: OptionType) => {
+		setTempState({ ...tempState, fontFamilyOption: selected });
+	};
+	const handleColor = (selected: OptionType) => {
+		setTempState({ ...tempState, fontColor: selected });
+	};
+	const handleBackgroundColors = (selected: OptionType) => {
+		setTempState({ ...tempState, backgroundColor: selected });
+	};
+	const handleWidthAr = (selected: OptionType) => {
+		setTempState({ ...tempState, contentWidth: selected });
+	};
+	const handleFontSize = (selected: OptionType) => {
+		setTempState({ ...tempState, fontSizeOption: selected });
+	};
 
-	// открытие закрытие боковой панели
-	const arrowButtonHandler = useCallback(() => {
+	const callBack = () => {
 		setOpen(!open);
-	}, [open]);
+	};
 
 	useOutsideClickClose({
 		isOpen: open,
 		rootRef: asideRef,
-		onClose: arrowButtonHandler,
+		onClose: callBack,
 		onChange: setOpen,
 	});
 	// рендер боковой панели
 	return (
 		<>
-			<ArrowButton callBack={arrowButtonHandler} />
+			<ArrowButton open={open} callBack={callBack} />
 			<aside
 				ref={asideRef}
 				className={clsx(styles.container, open && styles.container_open)}>

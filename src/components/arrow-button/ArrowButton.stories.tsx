@@ -13,7 +13,10 @@ export const ArrowButtonStory: Story = {
 	render: () => {
 		return (
 			<>
-				<ArrowButton callBack={() => alert('Open modal')} />
+				<ArrowButton
+					open={false}
+					callBack={() => alert('клик на кнопку применить')}
+				/>
 			</>
 		);
 	},
