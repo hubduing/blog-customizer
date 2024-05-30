@@ -32,58 +32,60 @@ export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
 }) => {
 	// хуки
 	const asideRef = useRef<HTMLDivElement | null>(null);
-	const [open, setOpen] = useState(false);
+	const [isFormOpen, setIsFormOpen] = useState(false);
 	const [formState, setFormState] = useState(defaultArticleState); // Основной стейт.
-	const [tempState, setTempState] = useState(formState); // Временный стейт, что бы опции сразу не применялись.
-	const apply = (e: FormEvent) => {
+	const handleApply = (e: FormEvent) => {
 		e.preventDefault();
-		setFormState(tempState);
-		updateState(tempState);
+		updateState(formState);
 	};
-	const reset = () => {
-		setFormState(defaultArticleState);
-		setTempState(defaultArticleState);
-	};
-	const handleFont = (selected: OptionType) => {
-		setTempState({ ...tempState, fontFamilyOption: selected });
-	};
-	const handleColor = (selected: OptionType) => {
-		setTempState({ ...tempState, fontColor: selected });
-	};
-	const handleBackgroundColors = (selected: OptionType) => {
-		setTempState({ ...tempState, backgroundColor: selected });
-	};
-	const handleWidthAr = (selected: OptionType) => {
-		setTempState({ ...tempState, contentWidth: selected });
-	};
-	const handleFontSize = (selected: OptionType) => {
-		setTempState({ ...tempState, fontSizeOption: selected });
+	const handleReset = () => {
+		updateState(defaultArticleState);
 	};
 
-	const callBack = () => {
-		setOpen(!open);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	// const handleFormState = (selected: OptionType, property: string) => {
+	// 	setFormState({ ...formState, [property]: selected });
+	// };
+
+	const handleFont = (selected: OptionType) => {
+		setFormState({ ...formState, fontFamilyOption: selected });
+	};
+	const handleColor = (selected: OptionType) => {
+		setFormState({ ...formState, fontColor: selected });
+	};
+	const handleBackgroundColors = (selected: OptionType) => {
+		setFormState({ ...formState, backgroundColor: selected });
+	};
+	const handleWidthAr = (selected: OptionType) => {
+		setFormState({ ...formState, contentWidth: selected });
+	};
+	const handleFontSize = (selected: OptionType) => {
+		setFormState({ ...formState, fontSizeOption: selected });
 	};
 
 	useOutsideClickClose({
-		isOpen: open,
+		isOpen: isFormOpen,
 		rootRef: asideRef,
-		onClose: callBack,
-		onChange: setOpen,
+		onClose: () => setIsFormOpen(false),
+		onChange: setIsFormOpen,
 	});
 	// рендер боковой панели
 	return (
 		<>
-			<ArrowButton open={open} callBack={callBack} />
+			<ArrowButton
+				open={isFormOpen}
+				onClick={() => setIsFormOpen(!isFormOpen)}
+			/>
 			<aside
 				ref={asideRef}
-				className={clsx(styles.container, open && styles.container_open)}>
-				<form className={styles.form} onSubmit={apply}>
+				className={clsx(styles.container, isFormOpen && styles.container_open)}>
+				<form className={styles.form} onSubmit={handleApply}>
 					<Text as='h2' size={31} weight={800} uppercase={true}>
 						Задайте параметры
 					</Text>
 					<Select
 						options={fontFamilyOptions}
-						selected={tempState.fontFamilyOption}
+						selected={formState.fontFamilyOption}
 						title='Шрифт'
 						onChange={handleFont}
 					/>
@@ -91,30 +93,30 @@ export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
 						name='fontSize'
 						title='Размер шрифта'
 						options={fontSizeOptions}
-						selected={tempState.fontSizeOption}
+						selected={formState.fontSizeOption}
 						onChange={handleFontSize}
 					/>
 					<Select
 						options={fontColors}
-						selected={tempState.fontColor}
+						selected={formState.fontColor}
 						title='Цвет шрифта'
 						onChange={handleColor}
 					/>
 					<Separator />
 					<Select
 						options={backgroundColors}
-						selected={tempState.backgroundColor}
+						selected={formState.backgroundColor}
 						title='Цвет фона'
 						onChange={handleBackgroundColors}
 					/>
 					<Select
 						options={contentWidthArr}
-						selected={tempState.contentWidth}
+						selected={formState.contentWidth}
 						title='Ширина контента'
 						onChange={handleWidthAr}
 					/>
 					<div className={styles.bottomContainer}>
-						<Button title='Сбросить' type='reset' onClick={reset} />
+						<Button title='Сбросить' type='reset' onClick={handleReset} />
 						<Button title='Применить' type='submit' />
 					</div>
 				</form>

@@ -4,9 +4,9 @@ import styles from './ArrowButton.module.scss';
 import clsx from 'clsx';
 export type PropsArrowButton = {
 	open: boolean;
-	callBack: () => void;
+	onClick: () => void;
 };
-export const ArrowButton: React.FC<PropsArrowButton> = ({ open, callBack }) => {
+export const ArrowButton: React.FC<PropsArrowButton> = ({ open, onClick }) => {
 	return (
 		/* Не забываем указаывать role и aria-label атрибуты для интерактивных элементов */
 		<div
@@ -14,7 +14,7 @@ export const ArrowButton: React.FC<PropsArrowButton> = ({ open, callBack }) => {
 			aria-label='Открыть/Закрыть форму параметров статьи'
 			tabIndex={0}
 			className={clsx(styles.container, open && styles.container_open)}
-			onClick={callBack}>
+			onClick={onClick}>
 			<img
 				src={arrow}
 				alt='иконка стрелочки'

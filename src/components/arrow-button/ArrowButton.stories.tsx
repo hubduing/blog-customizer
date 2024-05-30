@@ -15,7 +15,7 @@ export const ArrowButtonStory: Story = {
 			<>
 				<ArrowButton
 					open={false}
-					callBack={() => alert('клик на кнопку применить')}
+					onClick={() => alert('клик на кнопку применить')}
 				/>
 			</>
 		);

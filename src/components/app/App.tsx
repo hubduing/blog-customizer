@@ -10,10 +10,6 @@ import { Article } from '../article';
 export const App = () => {
 	// главное состояние
 	const [appState, setAppState] = useState(defaultArticleState);
-	// бумеранг
-	const updateState = (newState: ArticleStateType) => {
-		setAppState(newState);
-	};
 	return (
 		<div
 			className={styles.main}
@@ -26,7 +22,7 @@ export const App = () => {
 					'--bg-color': appState.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm updateState={updateState} />
+			<ArticleParamsForm updateState={setAppState} />
 			<Article />
 		</div>
 	);
