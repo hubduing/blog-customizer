@@ -40,6 +40,7 @@ export const ArticleParamsForm: React.FC<ArticleParamsFormType> = ({
 	};
 	const handleReset = () => {
 		updateState(defaultArticleState);
+		setFormState(defaultArticleState);
 	};
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,8 +1,5 @@
 import { CSSProperties, useState } from 'react';
-import {
-	ArticleStateType,
-	defaultArticleState,
-} from 'src/constants/articleProps';
+import { defaultArticleState } from 'src/constants/articleProps';
 import styles from './App.module.scss';
 import { ArticleParamsForm } from '../article-params-form';
 import { Article } from '../article';
